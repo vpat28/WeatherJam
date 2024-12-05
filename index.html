@@ -4,10 +4,91 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>WeatherJam</title>
   </head>
+
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <div id="main">
+      <div class="searchbar-ctnr">
+        <input 
+          type="text" 
+          class="searchbar" 
+          placeholder="Search for a city..."
+        >
+      </div>
+
+      <div class="content-ctnr">
+        <!-- Main header -->
+        <div class="header">
+          <!-- Title -->
+          <div class="title">
+            <!-- <img src="src/assets/sun.png" draggable="false" alt="icon"> -->
+            <div class="title-text">
+              <p id="date">--</p>
+              <h1 id="city">--</h1>
+            </div>
+          </div>
+
+          <!-- Country -->
+          <div class="country-ctnr">
+            <p id="country">--</p>
+          </div>
+        </div>
+
+        <!-- Weather container -->
+        <div class="weather-ctnr">
+          <div class="weather-today">
+            <div class="icon-temp">
+              <img id="weather-icon" src="src/assets/yellow-sun-icon-png.webp" draggable="false" alt="icon">
+              <div class="temp">
+                <h1><span id="todays-weather">--</span></h1>
+                <p>H: <span id="high">--</span>° / L: <span id="low">--</span>°</p>
+              </div>
+            </div>
+            <!-- <p><span id="dow">Thursday</span>, <span id="weather-desc">Sunny asf</span></p> -->
+          </div>
+          <div class="today-stats">
+            <div>
+              <p><span id="feels-like">--</span>°</p>
+              <p>Feels Like</p>
+            </div>
+            <div>
+              <p><span id="humidity">--</span></p>
+              <p>Humidity</p>
+            </div>
+            <div>
+              <p><span id="windspeed">--</span></p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="widget-ctnr">
+          <div class="widget">
+            <h3>By the Hour</h3>
+            
+          </div>
+          <div class="widget">
+            <h3>Precipitation</h3>
+            <div class="prec-row">
+              <p>Rain</p>
+              <p><span id="precipitation">--</span></p>
+            </div>
+            <div class="prec-row">
+              <p>Snow</p>
+              <p><span id="snow">--</span></p>
+            </div>
+          </div>
+          <div class="widget">
+            <h3>Weekly Forecast</h3>
+            <div class="forecast-ctnr" id="weekly-forecast"></div>
+          </div>
+        </div>
+        
+      </div>
+
+    </div>
   </body>
+
+  <script type="module" src="/src/main.js"></script>
 </html>
