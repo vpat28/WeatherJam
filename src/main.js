@@ -8,6 +8,7 @@ import './style.css'
 const searchBar = document.querySelector(".searchbar");
 const cityElement = document.getElementById("city");
 const dateElement = document.getElementById("date");
+const timeElement = document.getElementById("time");
 const tempElement = document.getElementById("todays-weather");
 //const weatherDescElement = document.getElementById("weather-desc");
 const humidityElement = document.getElementById("humidity");
@@ -59,6 +60,10 @@ const getWeather = async (city,days) => {
     console.log("CHECKING DATE:     " + data.forecast.forecastday[1]);
     //console.log("slay" + data.forecast.forecastday[1].day.condition.icon);
 
+    // Set date and time
+    dateElement.textContent = getFormattedDate();
+    timeElement.textContent = getCurrentTime();
+
     // Forecast stuff
     updateForecast(data);
 };
@@ -86,17 +91,27 @@ function getFormattedDate() {
     const year = today.getFullYear();
 
     // Format the month name
-    const month = today.toLocaleString('default', { month: 'long' });
+    const month = today.toLocaleString('default', { month: 'short' });
 
     // Return the formatted date
     return `${month} ${day}, ${year}`;
 }
 
+function getCurrentTime() {
+    const now = new Date();
+
+    let hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+
+    // Determine AM/PM and convert hours to 12-hour format
+    const amPm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12; // Convert 0 (midnight) to 12
+
+    return `${hours}:${minutes} ${amPm}`;
+}
+
 // On initialization
 document.addEventListener("DOMContentLoaded", function() {
-    // Set date
-    dateElement.textContent = getFormattedDate();
-
     // Default search
     getWeather("Deerfield Beach", 7);
 });

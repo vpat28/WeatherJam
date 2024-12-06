@@ -32,14 +32,24 @@ p { font-size: 1.5rem; }
   flex-direction: column;
 }
 
-/* Searchbar styles */
-.searchbar-ctnr {
+/* Nav bar styles */
+.nav-ctnr {
   width: 100%;
   background: white;
   border-bottom: 1px solid lightgrey;
   display: flex;
-  justify-content: center;
+  align-items: center;
   padding: 1.5rem 0;
+  gap: 4rem;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+
+  img { width: 2rem; }
+  h3 { font-size: 1.75rem; }
 }
 
 .searchbar {
@@ -47,6 +57,18 @@ p { font-size: 1.5rem; }
   width: 100%;
   border: 1px solid grey;
   border-radius: .35rem;
+}
+
+.datetime-ctnr {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+
+  p { 
+    text-wrap: nowrap;
+    font-size: 1.25rem;
+    /* opacity: .75; */
+  }
 }
 
 .content-ctnr {
