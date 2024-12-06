@@ -233,4 +233,5 @@ p { font-size: 1.5rem; }
     font-size: 1.25rem;
     gap: .25rem;
   }
+  p:last-child { opacity: .5; }
 }

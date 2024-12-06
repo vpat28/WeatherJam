@@ -134,8 +134,8 @@ const updateForecast = (data) => {
             ${dayName}
         </div>
         <div class="fc-highlow">
-            <p id="fc-high">H: ${day.day.maxtemp_f}°</p>
-            <p id="fc-low">L: ${day.day.mintemp_f}°</p>
+            <p id="fc-high">${day.day.maxtemp_f}°</p>
+            <p id="fc-low">${day.day.mintemp_f}°</p>
         </div>
       `;
   
