@@ -130,6 +130,7 @@ const updateForecast = (data) => {
       // <img src="${day.condition.icon}" alt="icon">
       forecastRow.innerHTML = `
         <div class="fc-day">
+            <img src="${day.day.condition.icon}" alt="icon">
             ${dayName}
         </div>
         <div class="fc-highlow">
