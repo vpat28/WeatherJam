@@ -9,12 +9,20 @@
 
   <body>
     <div id="main">
-      <div class="searchbar-ctnr">
+      <div class="nav-ctnr">
+        <div class="nav-logo">
+          <img src="public/vite.svg" draggable="false">
+          <h3>WeatherJam</h3>
+        </div>
         <input 
           type="text" 
           class="searchbar" 
-          placeholder="Search for a city..."
+          placeholder="Search for a city ..."
         >
+        <div class="datetime-ctnr">
+          <p id="date">--</p>
+          <p id="time">--</p>
+        </div>
       </div>
 
       <div class="content-ctnr">
@@ -24,7 +32,6 @@
           <div class="title">
             <!-- <img src="src/assets/sun.png" draggable="false" alt="icon"> -->
             <div class="title-text">
-              <p id="date">--</p>
               <h1 id="city">--</h1>
             </div>
           </div>
@@ -33,13 +40,10 @@
           <div class="country-ctnr">
             <p id="country">--</p>
           </div>
-          <div class="time-ctnr">
-            <p id="time">Local Time ___</p>
-          </div>
-
+        
         </div>
 
-        <!-- Weather container -->
+        <!-- MAIN WEATHER container -->
         <div class="weather-ctnr">
           <div class="weather-today">
             <div class="icon-temp">
@@ -66,11 +70,34 @@
           </div>
         </div>
 
+        <div class="hourly-fc-ctnr">
+          <h3>Hourly Forecast</h3>
+          <div class="hourly-fc-reel">
+            <div class="hour-fc">
+              <p>5 PM</p>
+              <img src="src/assets/yellow-sun-icon-png.webp" alt="icon" draggable="false">
+              <p>71</p>
+            </div>
+            <div class="hour-fc">
+              <p>6 PM</p>
+              <img src="src/assets/yellow-sun-icon-png.webp" alt="icon" draggable="false">
+              <p>69</p>
+            </div>
+            <div class="hour-fc">
+              <p>7 PM</p>
+              <img src="src/assets/yellow-sun-icon-png.webp" alt="icon" draggable="false">
+              <p>54</p>
+            </div>
+          </div>
+        </div>
+
         <div class="widget-ctnr">
+          <!-- Hourly Forecast widget -->
           <div class="widget">
             <h3>By the Hour</h3>
             <div class="hour-ctnr" id="hourly-forecast"></div>
           </div>
+          <!-- Precipitation widget -->
           <div class="widget">
             <h3>Precipitation</h3>
             <div class="prec-row">
@@ -82,8 +109,9 @@
               <p><span id="snow">--</span></p>
             </div>
           </div>
+          <!-- Weekly Forecast widget -->
           <div class="widget">
-            <h3>Weekly Forecast</h3>
+            <h3>This Week</h3>
             <div class="forecast-ctnr" id="weekly-forecast"></div>
           </div>
         </div>
