@@ -193,3 +193,37 @@ p { font-size: 1.5rem; }
     gap: .25rem;
   }
 }
+/* Hourly Forecast */
+.hour-ctnr {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.hour-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid lightgrey;
+  padding: .5rem 0;
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  img { width: 2rem; }
+}
+.hour-row:last-child { border: none; }
+
+.fc-hourtemp {
+  flex-flow: wrap;
+  justify-content: right;
+  gap: .5rem;
+
+  p {
+    font-size: 1rem;
+    gap: .25rem;
+  }
+}

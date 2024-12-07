@@ -20,8 +20,10 @@ const precipitation = document.getElementById("precipitation");
 const snow = document.getElementById("snow");
 
 const weeklyForecastContainer = document.getElementById("weekly-forecast");
+const hourlyForecastContainer = document.getElementById("hourly-forecast");
 
 const country = document.getElementById("country")
+const localTime = document.getElementById("time");
 
 const API_KEY = "abb58a5c63ca46dfad6150352240512";
 const BASE_URL = "https://api.weatherapi.com/v1/forecast.json";
@@ -30,11 +32,11 @@ const BASE_URL = "https://api.weatherapi.com/v1/forecast.json";
 const getWeather = async (city,days) => {
     console.log(city,days);
     var data = "";
-    console.log("URL: " + `${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=no`);
+    console.log("URL: " + `${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=yes`);
 
     try 
     {
-        const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=no`);
+        const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=yes`);
         if (!response.ok) throw new Error("Failed to fetch weather data");
         data = await response.json();
         console.log(data);
@@ -61,6 +63,7 @@ const getWeather = async (city,days) => {
 
     // Forecast stuff
     updateForecast(data);
+    updateHourly(data);
 };
 
 
@@ -101,9 +104,73 @@ document.addEventListener("DOMContentLoaded", function() {
     getWeather("Deerfield Beach", 7);
 });
 
+function trimTime(bigTimeString,isNum){
+    var trimmedTime = ""
+    for (var i = 5; i > 0; i--) {
+      if(i ==3 && isNum){
+        trimmedTime = trimmedTime + "."
+      }else{
+        trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
+      }
+      
+  }
+  
+  console.log("IN METHOD: " + trimmedTime)
+  return trimmedTime
+}
 
+const updateHourly = (data) =>{
+    console.log(hourlyForecastContainer);
+    if (!hourlyForecastContainer) {
+        console.error("hourlyForecastContainer is null. Check the HTML and ensure the ID is correct.");
+        return;
+      }
+      hourlyForecastContainer.textContent = ""
+      const bigTimeString = data.location.localtime;
+      console.log(bigTimeString)
+      console.log(bigTimeString[11])
+      var currTime = ""
+      var numTime = " "
+   
+    currTime = trimTime(bigTimeString,false);
+    console.log(currTime);
+    numTime = trimTime(bigTimeString,true);
+    // console.log(trimTime)
+    localTime.textContent = "Local Time " + currTime;
+    const startHourlyFrom = Math.ceil(Number(numTime) + Number.EPSILON);
+      console.log(startHourlyFrom);
+      for(var i = startHourlyFrom; i<=23;i++){
+        const hourRow =document.createElement("div");
+        hourRow.className = "hour-row";
+        const time = data.forecast.forecastday[0].hour[i].time;
+        const temp =data.forecast.forecastday[0].hour[i].temp_f;
+        console.log()
+        hourRow.innerHTML = `
+        <div class="fc-hour">
+            ${trimTime(time,false)}
+        </div>
+        <div class="fc-hourtemp">
+            <p id="fc-temp">${temp}°F</p>
+            
+        </div>
+      `;
+  
+      
+      hourlyForecastContainer.appendChild(hourRow);
+      }
+    const midnightMessageRow = document.createElement("div");
+    midnightMessageRow.className = "hour-row special-message";
+    midnightMessageRow.innerHTML = `
+        <div class="fc-hour">
+            24:00
+        </div>
+        <div class="fc-hourtemp">
+            <p id="fc-temp">The hourly forecast will be updated at midnight!</p>
+        </div>
+    `;
 
-
+    hourlyForecastContainer.appendChild(midnightMessageRow);
+}
 
 const updateForecast = (data) => {
 
