@@ -44,6 +44,7 @@ p { font-size: 1.5rem; }
   border-bottom: 1px solid var(--border-light);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 1.5rem 0;
   gap: 4rem;
 }
@@ -58,16 +59,17 @@ p { font-size: 1.5rem; }
 }
 
 /* Search History */
-.searchbar {
-  padding: .75rem 1rem;
+.searchbar-container {
   width: 100%;
-  border: 1px solid var(--border-main);
-  border-radius: .35rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
-.searchbar-container {
-  position: relative;
-  width: 100%;
+.searchbar {
+  padding: .75rem 1rem;
+  border: 1px solid var(--border-main);
+  border-radius: .35rem;
 }
 
 #search-history {
@@ -137,7 +139,6 @@ p { font-size: 1.5rem; }
   p { 
     text-wrap: nowrap;
     font-size: 1.25rem;
-    /* opacity: .75; */
   }
 }
 

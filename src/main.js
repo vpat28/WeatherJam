@@ -69,7 +69,6 @@ const getWeather = async (city,days) => {
     
     country.textContent = data.location.country;
     console.log("CHECKING DATE:     " + data.forecast.forecastday[1]);
-    //console.log("slay" + data.forecast.forecastday[1].day.condition.icon);
 
     // Set date and time
     dateElement.textContent = getFormattedDate();
