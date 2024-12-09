@@ -1,12 +1,8 @@
 import './style.css'
 
-// import javascriptLogo from './javascript.svg'
-// import viteLogo from '/vite.svg'
-// import { setupCounter } from './counter.js'
-
 //API KEY: abb58a5c63ca46dfad6150352240512
 
-const searchBar = document.querySelector(".searchbar");
+const searchbar = document.querySelector(".searchbar");
 const cityElement = document.getElementById("city");
 const dateElement = document.getElementById("date");
 const timeElement = document.getElementById("time");
@@ -58,8 +54,8 @@ const getWeather = async (city,days) => {
     weatherIcon.src = data.forecast.forecastday[0].day.condition.icon
     high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
     low.textContent = data.forecast.forecastday[0].day.mintemp_f;
-    precipitation.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
-    snow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
+    // precipitation.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
+    // snow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
     country.textContent = data.location.country;
     console.log("CHECKING DATE:     " + data.forecast.forecastday[1]);
     //console.log("slay" + data.forecast.forecastday[1].day.condition.icon);
@@ -76,10 +72,10 @@ const getWeather = async (city,days) => {
 
 
 
-// Listen for Enter key press in the search bar
-searchBar.addEventListener("keypress", (e) => {
+// { LISTENER FOR 'ENTER' KEY IN SEARCHBAR }
+searchbar.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
-        const city = searchBar.value.trim();
+        const city = searchbar.value.trim();
         if (city) {
             getWeather(city,7);
         } else {
@@ -88,7 +84,8 @@ searchBar.addEventListener("keypress", (e) => {
     }
 });
 
-// Get today's date
+
+// { FUNCTION TO RETURN TODAY'S DATE }
 function getFormattedDate() {
     const today = new Date();
 
@@ -103,6 +100,8 @@ function getFormattedDate() {
     return `${month} ${day}, ${year}`;
 }
 
+
+// { FUNCTION TO RETURN CURRENT TIME }
 function getCurrentTime() {
     const now = new Date();
 
@@ -116,84 +115,34 @@ function getCurrentTime() {
     return `${hours}:${minutes} ${amPm}`;
 }
 
-// On initialization
+
+// { FUNCTION RUNS ON PAGE INITIALIZATION }
 document.addEventListener("DOMContentLoaded", function() {
     // Default search
     getWeather("Deerfield Beach", 7);
 });
 
+
 function trimTime(bigTimeString,isNum){
-    var trimmedTime = ""
+    var trimmedTime = "";
     for (var i = 5; i > 0; i--) {
-      if(i ==3 && isNum){
-        trimmedTime = trimmedTime + "."
-      }else{
-        trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
-      }
-      
-  }
-  
-  console.log("IN METHOD: " + trimmedTime)
-  return trimmedTime
+        if (i ==3 && isNum) {
+            trimmedTime = trimmedTime + ".";
+        }
+        else {
+            trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
+        }
+    }
+
+    return trimmedTime;
 }
 
-// const updateHourly = (data) =>{
-//     console.log(hourlyForecastContainer);
-//     if (!hourlyForecastContainer) {
-//         console.error("hourlyForecastContainer is null. Check the HTML and ensure the ID is correct.");
-//         return;
-//       }
-//       hourlyForecastContainer.textContent = ""
-//       const bigTimeString = data.location.localtime;
-//       console.log(bigTimeString)
-//       console.log(bigTimeString[11])
-//       var currTime = ""
-//       var numTime = " "
-   
-//     currTime = trimTime(bigTimeString,false);
-//     console.log(currTime);
-//     numTime = trimTime(bigTimeString,true);
-//     // console.log(trimTime)
-//     localTime.textContent = "Local Time " + currTime;
-//     const startHourlyFrom = Math.ceil(Number(numTime) + Number.EPSILON);
-//       console.log(startHourlyFrom);
-//       for(var i = startHourlyFrom; i<=23;i++){
-//         const hourRow =document.createElement("div");
-//         hourRow.className = "hour-row";
-//         const time = data.forecast.forecastday[0].hour[i].time;
-//         const temp =data.forecast.forecastday[0].hour[i].temp_f;
-//         console.log()
-//         hourRow.innerHTML = `
-//         <div class="fc-hour">
-//             ${trimTime(time,false)}
-//         </div>
-//         <div class="fc-hourtemp">
-//             <p id="fc-temp">${temp}°F</p>
-            
-//         </div>
-//       `;
-  
-      
-//       hourlyForecastContainer.appendChild(hourRow);
-//       }
-//     const midnightMessageRow = document.createElement("div");
-//     midnightMessageRow.className = "hour-row special-message";
-//     midnightMessageRow.innerHTML = `
-//         <div class="fc-hour">
-//             24:00
-//         </div>
-//         <div class="fc-hourtemp">
-//             <p id="fc-temp">The hourly forecast will be updated at midnight!</p>
-//         </div>
-//     `;
 
-//     hourlyForecastContainer.appendChild(midnightMessageRow);
-// }
-
+// { FUNCTION TO POPULATE HOURLY FORECAST }
 const updateHourly = (data) => {
     if (!hourlyForecastContainer) {
-      console.error("hourlyForecastContainer is null. Check the HTML and ensure the class is correct.");
-      return;
+        console.error("hourlyForecastContainer is null. Check the HTML and ensure the class is correct.");
+        return;
     }
   
     hourlyForecastContainer.textContent = "";
@@ -202,49 +151,50 @@ const updateHourly = (data) => {
     const currentHour = currentTime.getHours();
   
     for (let i = currentHour; i < data.forecast.forecastday[0].hour.length; i++) {
-      const hourData = data.forecast.forecastday[0].hour[i];
-      const hourTime = new Date(hourData.time).toLocaleTimeString([], { hour: "numeric", hour12: true });
-      const hourTemp = hourData.temp_f;
-      const hourIcon = hourData.condition.icon;
-  
-      // Create hourly forecast card
-      const hourCard = document.createElement("div");
-      hourCard.className = "hour-fc";
-      hourCard.innerHTML = `
+        const hourData = data.forecast.forecastday[0].hour[i];
+        const hourTime = new Date(hourData.time).toLocaleTimeString([], { hour: "numeric", hour12: true });
+        const hourTemp = hourData.temp_f;
+        const hourIcon = hourData.condition.icon;
+
+        // Create hourly forecast card
+        const hourCard = document.createElement("div");
+        hourCard.className = "hour-fc";
+        hourCard.innerHTML = `
         <p>${hourTime}</p>
         <img src="${hourIcon}" alt="Weather Icon" draggable="false">
         <p>${hourTemp}° <span class="scale-temp">F</span></p>
-      `;
-  
-      // Append to the hourly forecast reel
-      hourlyForecastContainer.appendChild(hourCard);
-    }
-  };
-  
-const updateForecast = (data) => {
+        `;
 
+        // Append to the hourly forecast reel
+        hourlyForecastContainer.appendChild(hourCard);
+    }
+};
+
+
+// { FUNCTION TO POPULATE WEEKLY FORECAST }
+const updateForecast = (data) => {
     console.log(weeklyForecastContainer);
     if (!weeklyForecastContainer) {
         console.error("weeklyForecastContainer is null. Check the HTML and ensure the ID is correct.");
         return;
-      }
+    }
 
     weeklyForecastContainer.textContent = "";
     //console.log(data.forecast.forecastday[1]);
-    
+
     data.forecast.forecastday.forEach((day, index) => {
-      // Create a new forecast row
-      const forecastRow = document.createElement("div");
-      forecastRow.className = "forecast-row";
-  
-      // Format the day
-      const date = new Date(day.date);
-      const options = { weekday: "short" };
-      const dayName = date.toLocaleDateString(undefined, options);
-  
-      // Build the forecast row content
-      // <img src="${day.condition.icon}" alt="icon">
-      forecastRow.innerHTML = `
+        // Create a new forecast row
+        const forecastRow = document.createElement("div");
+        forecastRow.className = "forecast-row";
+
+        // Format the day
+        const date = new Date(day.date);
+        const options = { weekday: "short" };
+        const dayName = date.toLocaleDateString(undefined, options);
+
+        // Build the forecast row content
+        // <img src="${day.condition.icon}" alt="icon">
+        forecastRow.innerHTML = `
         <div class="fc-day">
             <img src="${day.day.condition.icon}" alt="icon">
             ${dayName}
@@ -253,84 +203,83 @@ const updateForecast = (data) => {
             <p id="fc-high">${day.day.maxtemp_f}°</p>
             <p id="fc-low">${day.day.mintemp_f}°</p>
         </div>
-      `;
-  
-      // Append the row to the weekly forecast container
-      weeklyForecastContainer.appendChild(forecastRow);
+        `;
+
+        // Append the row to the weekly forecast container
+        weeklyForecastContainer.appendChild(forecastRow);
     });
-  };
+};
   
 
-  const renderHourlyChart = async (data) => {
+const renderHourlyChart = async (data) => {
     try {
-      await loadChartJs(); // Load Chart.js dynamically
-      console.log("Chart.js loaded, rendering chart...");
+        await loadChartJs(); // Load Chart.js dynamically
+        console.log("Chart.js loaded, rendering chart...");
+
+        const ctx = document.getElementById("hourlyTempChart").getContext("2d");
+
+        const hourlyLabels = data.forecast.forecastday[0].hour.map((hour) => {
+            const time = new Date(hour.time);
+            return time.toLocaleTimeString([], { hour: "numeric", hour12: true });
+        });
+
+        const hourlyTemperatures = data.forecast.forecastday[0].hour.map(
+            (hour) => hour.temp_f
+        );
+
+        console.log("Hourly Labels:", hourlyLabels);
+        console.log("Hourly Temperatures:", hourlyTemperatures);
   
-      const ctx = document.getElementById("hourlyTempChart").getContext("2d");
-  
-      const hourlyLabels = data.forecast.forecastday[0].hour.map((hour) => {
-        const time = new Date(hour.time);
-        return time.toLocaleTimeString([], { hour: "numeric", hour12: true });
-      });
-  
-      const hourlyTemperatures = data.forecast.forecastday[0].hour.map(
-        (hour) => hour.temp_f
-      );
-  
-      console.log("Hourly Labels:", hourlyLabels);
-      console.log("Hourly Temperatures:", hourlyTemperatures);
-  
-      new Chart(ctx, {
-        type: "line",
-        data: {
-          labels: hourlyLabels,
-          datasets: [
-            {
-              label: "Temperature (°F)",
-              data: hourlyTemperatures,
-              borderColor: "#007BFF",
-              backgroundColor: "rgba(0, 123, 255, 0.2)",
-              borderWidth: 2,
-              pointRadius: 3,
-              pointBackgroundColor: "#007BFF",
-              fill: true, 
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: hourlyLabels,
+                datasets: [
+                {
+                    label: "Temperature (°F)",
+                    data: hourlyTemperatures,
+                    borderColor: "#007BFF",
+                    backgroundColor: "rgba(0, 123, 255, 0.2)",
+                    borderWidth: 2,
+                    pointRadius: 3,
+                    pointBackgroundColor: "#007BFF",
+                    fill: true, 
+                },
+                ],
             },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true, // Prevents the chart from stretching vertically
-          scales: {
-            x: {
-              grid: { display: false },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Prevents the chart from stretching vertically
+                scales: {
+                x: {
+                    grid: { display: false },
+                },
+                y: {
+                    grid: { color: "#e0e0e0" },
+                    ticks: { beginAtZero: false },
+                },
+                },
+                plugins: {
+                legend: { display: false },
+                },
             },
-            y: {
-              grid: { color: "#e0e0e0" },
-              ticks: { beginAtZero: false },
-            },
-          },
-          plugins: {
-            legend: { display: false },
-          },
-        },
-      });
-      
-    } catch (error) {
-      console.error("Error rendering chart:", error);
+        });
+    } 
+    catch (error) {
+        console.error("Error rendering chart:", error);
     }
-  };
+};
   
   
-  const loadChartJs = () => {
+const loadChartJs = () => {
     return new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = "https://cdn.jsdelivr.net/npm/chart.js";
-      script.onload = () => {
-        console.log("Chart.js loaded successfully");
-        resolve();
-      };
-      script.onerror = () => reject(new Error("Failed to load Chart.js"));
-      document.head.appendChild(script);
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+        script.onload = () => {
+            console.log("Chart.js loaded successfully");
+            resolve();
+        };
+        script.onerror = () => reject(new Error("Failed to load Chart.js"));
+        document.head.appendChild(script);
     });
-  };
-  
+};
