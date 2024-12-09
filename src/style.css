@@ -1,7 +1,10 @@
 :root {
   --background: white;
   --accent: rgb(0, 0, 125);
+  --accent: rgb(80, 80, 255);
+  --accent-gradient: linear-gradient(to bottom right, rgb(121, 190, 255), rgb(48, 48, 255));
   --border-main: grey;
+  /* --border-main: rgb(48, 48, 255); */
   --border-light: lightgrey;
 }
 
@@ -30,7 +33,6 @@ p { font-size: 1.5rem; }
 
 #main {
   width: 75%;
-  /* background: aliceblue; */
   display: flex;
   flex-direction: column;
 }
@@ -98,6 +100,11 @@ p { font-size: 1.5rem; }
   display: flex;
   flex-direction: column;
 
+  h1 {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
   img { width: 5rem; }
   p { opacity: .5; }
 }
