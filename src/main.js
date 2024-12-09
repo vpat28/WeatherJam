@@ -14,8 +14,6 @@ const weatherIcon = document.getElementById("weather-icon");
 const feelsLikeElement = document.getElementById("feels-like");
 const high = document.getElementById("high");
 const low = document.getElementById("low");
-const precipitation = document.getElementById("precipitation");
-const snow = document.getElementById("snow");
 
 const weeklyForecastContainer = document.getElementById("weekly-forecast");
 //const hourlyForecastContainer = document.getElementById("hourly-forecast");
@@ -54,8 +52,7 @@ const getWeather = async (city,days) => {
     weatherIcon.src = data.forecast.forecastday[0].day.condition.icon
     high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
     low.textContent = data.forecast.forecastday[0].day.mintemp_f;
-    // precipitation.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
-    // snow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
+    
     country.textContent = data.location.country;
     console.log("CHECKING DATE:     " + data.forecast.forecastday[1]);
     //console.log("slay" + data.forecast.forecastday[1].day.condition.icon);
@@ -64,10 +61,11 @@ const getWeather = async (city,days) => {
     dateElement.textContent = getFormattedDate();
     timeElement.textContent = getCurrentTime();
 
-    // Forecast stuff
-    updateForecast(data);
+    // Populate widgets
+    populateWeeklyForecast(data);
     updateHourly(data);
     renderHourlyChart(data);
+    populateMoreStats(data);
 };
 
 
@@ -123,19 +121,19 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-function trimTime(bigTimeString,isNum){
-    var trimmedTime = "";
-    for (var i = 5; i > 0; i--) {
-        if (i ==3 && isNum) {
-            trimmedTime = trimmedTime + ".";
-        }
-        else {
-            trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
-        }
-    }
+// function trimTime(bigTimeString,isNum){
+//     var trimmedTime = "";
+//     for (var i = 5; i > 0; i--) {
+//         if (i ==3 && isNum) {
+//             trimmedTime = trimmedTime + ".";
+//         }
+//         else {
+//             trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
+//         }
+//     }
 
-    return trimmedTime;
-}
+//     return trimmedTime;
+// }
 
 
 // { FUNCTION TO POPULATE HOURLY FORECAST }
@@ -171,9 +169,9 @@ const updateHourly = (data) => {
 };
 
 
-// { FUNCTION TO POPULATE WEEKLY FORECAST }
-const updateForecast = (data) => {
-    console.log(weeklyForecastContainer);
+// { FUNCTION TO POPULATE WEEKLY FORECAST WIDGET }
+const populateWeeklyForecast = (data) => {
+    // console.log(weeklyForecastContainer);
     if (!weeklyForecastContainer) {
         console.error("weeklyForecastContainer is null. Check the HTML and ensure the ID is correct.");
         return;
@@ -209,7 +207,24 @@ const updateForecast = (data) => {
         weeklyForecastContainer.appendChild(forecastRow);
     });
 };
-  
+
+
+// { FUNCTION TO POPULATE OTHER STATS WIDGET }
+const populateMoreStats = (data) => {
+    const chanceRain = document.getElementById("chance-rain");
+    const totalRain = document.getElementById("total-rain");
+    const chanceSnow = document.getElementById("chance-snow");
+    const totalSnow = document.getElementById("total-snow");
+    const maxWind = document.getElementById("max-wind");
+    const uvIndex = document.getElementById("uv-index");
+
+    chanceRain.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
+    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in.";
+    chanceSnow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
+    totalSnow.textContent = (data.forecast.forecastday[0].day.totalsnow_cm / 2.54) + " in.";
+    maxWind.textContent = data.forecast.forecastday[0].day.maxwind_mph + " mph";
+    uvIndex.textContent = data.forecast.forecastday[0].day.uv;
+}
 
 const renderHourlyChart = async (data) => {
     try {
