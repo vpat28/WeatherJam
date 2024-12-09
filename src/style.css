@@ -1,5 +1,8 @@
 :root {
-  --accent-color: rgb(0, 0, 125);
+  --background: white;
+  --accent: rgb(0, 0, 125);
+  --border-main: grey;
+  --border-light: lightgrey;
 }
 
 * {
@@ -15,7 +18,7 @@ html {
 
 body {
   width: 100vw;
-  background: white;
+  background: var(--background);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -36,7 +39,7 @@ p { font-size: 1.5rem; }
 .nav-ctnr {
   width: 100%;
   background: white;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid var(--border-light);
   display: flex;
   align-items: center;
   padding: 1.5rem 0;
@@ -55,7 +58,7 @@ p { font-size: 1.5rem; }
 .searchbar {
   padding: .75rem 1rem;
   width: 100%;
-  border: 1px solid grey;
+  border: 1px solid var(--border-main);
   border-radius: .35rem;
 }
 
@@ -99,13 +102,13 @@ p { font-size: 1.5rem; }
   p { opacity: .5; }
 }
 
-#city { color: var(--accent-color); }
+#city { color: var(--accent); }
 .country-ctnr p { font-size: 1.5rem; }
 
 /* MAIN WEATHER container */
 .weather-ctnr {
   padding: 2rem;
-  border: 1px solid grey;
+  border: 1px solid var(--border-main);
   border-radius: .5rem;
   display: flex;
   align-items: center;
@@ -154,41 +157,52 @@ p { font-size: 1.5rem; }
 /* HOURLY FORECAST */
 .hourly-fc-ctnr {
   padding: 2rem;
-  border: 1px solid grey;
+  border: 1px solid var(--border-main);
   border-radius: .5rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  /* align-items: center; */
-  /* justify-content: space-between; */
+  /* gap: 1rem; */
 
   h3 {
-    color: var(--accent-color);
+    color: var(--accent);
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
   p { font-size: 1.5rem; }
 }
 
 .hourly-fc-reel {
   width: 100%;
-  background: aliceblue;
   display: flex;
   align-items: center;
+  padding: 2rem 0;
   overflow-x: scroll;
   gap: 2rem;
 }
+.hourly-fc-reel::-webkit-scrollbar { height: .75rem; }
+.hourly-fc-reel::-webkit-scrollbar-track { background: #f1f1f1; }
+.hourly-fc-reel::-webkit-scrollbar-thumb { 
+  background: #ccc; 
+  border-radius: .5rem; 
+}
+.hourly-fc-reel::-webkit-scrollbar-thumb:hover { background: #aaa; }
 
 .hour-fc {
+  min-width: 5rem; 
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   gap: .5rem;
 
   img { width: 4rem; }
-  min-width: 50px; 
-  text-align: center;
+  p { 
+    display: flex; 
+    align-items: start; 
+    gap: .25rem; 
+  }
+  .scale-temp { font-size: 80%; }
 }
 
 /* Side by side widgets */
@@ -201,15 +215,20 @@ p { font-size: 1.5rem; }
 
 .widget {
   flex: 1;
-  border: 1px solid grey;
+  border: 1px solid var(--border-main);
   border-radius: 0.5rem;
   padding: 1.5rem 2rem;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: start;
   justify-content: flex-start;
   text-align: center;
   gap: 1rem;
+
+  h3 {
+    color: var(--accent);
+    font-size: 1.75rem;
+  }
 }
 
 /* Precipitation Widget */
@@ -230,7 +249,7 @@ p { font-size: 1.5rem; }
 .prec-value {
   font-size: 3.5rem;
   font-weight: bold;
-  color: var(--accent-color)
+  color: var(--accent)
 }
 
 .prec-label {
@@ -251,7 +270,7 @@ p { font-size: 1.5rem; }
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid var(--border-light);
   padding: .5rem 0;
   font-size: 1.25rem;
 
@@ -287,7 +306,7 @@ p { font-size: 1.5rem; }
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid var(--border-light);
   padding: .5rem 0;
 
   div {
@@ -322,7 +341,7 @@ p { font-size: 1.5rem; }
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid var(--border-light);
   padding: .5rem 0;
 
   div {

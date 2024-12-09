@@ -51,7 +51,7 @@ const getWeather = async (city,days) => {
     }
 
     cityElement.textContent = `${data.location.name}, ${data.location.region}`;
-    tempElement.textContent = `${data.current.temp_f}° F`;
+    tempElement.innerHTML = `${data.current.temp_f}° F`;
     humidityElement.textContent = `${data.current.humidity}%`;
     feelsLikeElement.textContent = data.current.feelslike_f;
     windspeedElement.textContent = data.current.wind_mph + " mph";
@@ -213,7 +213,7 @@ const updateHourly = (data) => {
       hourCard.innerHTML = `
         <p>${hourTime}</p>
         <img src="${hourIcon}" alt="Weather Icon" draggable="false">
-        <p>${hourTemp}°F</p>
+        <p>${hourTemp}° <span class="scale-temp">F</span></p>
       `;
   
       // Append to the hourly forecast reel
