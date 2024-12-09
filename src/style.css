@@ -380,3 +380,45 @@ p { font-size: 1.5rem; }
   max-height: 300px; /* Optional: Set a maximum height */
   margin: auto; /* Center the chart vertically */
 }
+
+
+/* Search History */
+.searchbar-container {
+  position: relative;
+  width: 100%;
+}
+
+#search-history {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+#search-history li {
+  padding: 10px;
+  cursor: pointer;
+  color: #007BFF;
+  border-bottom: 1px solid lightgrey;
+}
+
+#search-history li:last-child {
+  border-bottom: none;
+}
+
+#search-history li:hover {
+  background-color: #f0f8ff;
+  color: #0056b3;
+}
+
+.hidden {
+  display: none;
+}

@@ -22,6 +22,9 @@ const hourlyForecastContainer = document.querySelector(".hourly-fc-reel");
 const country = document.getElementById("country")
 const localTime = document.getElementById("time");
 
+const searchHistoryDropdown = document.getElementById("search-history");
+const localStorageKey = "weatherSearchHistory";
+
 const API_KEY = "abb58a5c63ca46dfad6150352240512";
 const BASE_URL = "https://api.weatherapi.com/v1/forecast.json";
 
@@ -75,7 +78,9 @@ searchbar.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         const city = searchbar.value.trim();
         if (city) {
+            saveToSearchHistory(city);
             getWeather(city,7);
+            searchHistoryDropdown.classList.add("hidden");
         } else {
             alert("Please enter a city name.");
         }
@@ -116,6 +121,7 @@ function getCurrentTime() {
 
 // { FUNCTION RUNS ON PAGE INITIALIZATION }
 document.addEventListener("DOMContentLoaded", function() {
+    updateSearchHistoryUI();
     // Default search
     getWeather("Deerfield Beach", 7);
 });
@@ -300,3 +306,57 @@ const loadChartJs = () => {
         document.head.appendChild(script);
     });
 };
+
+// Search History Functionality
+
+const saveToSearchHistory = (city) => {
+    const history = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+  
+    // Avoid duplicates
+    if (!history.includes(city)) {
+      history.unshift(city); // Add to beginning
+      if (history.length > 5) history.pop(); // Limit to last 5 searches
+      localStorage.setItem(localStorageKey, JSON.stringify(history));
+    }
+  
+    updateSearchHistoryUI();
+  };
+
+// Update the search history dropdown
+const updateSearchHistoryUI = () => {
+    const history = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    searchHistoryDropdown.innerHTML = ""; // Clear existing dropdown
+  
+    history.forEach((city) => {
+      const listItem = document.createElement("li");
+      listItem.textContent = city;
+      listItem.addEventListener("click", () => {
+        searchbar.value = city;
+        searchHistoryDropdown.classList.add("hidden");
+        getWeather(city, 7); // Trigger search
+      });
+      searchHistoryDropdown.appendChild(listItem);
+    });
+  
+      searchHistoryDropdown.classList.add("hidden");
+  };
+
+// Show dropdown on search bar focus
+searchbar.addEventListener("focus", () => {
+    const history = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+    if (history.length > 0) {
+      searchHistoryDropdown.classList.remove("hidden");
+    }
+});
+
+// Hide dropdown when clicking outside
+document.addEventListener("click", (e) => {
+    if (!searchbar.contains(e.target) && !searchHistoryDropdown.contains(e.target)) {
+      searchHistoryDropdown.classList.add("hidden");
+    }
+});
+
+// Prevent hiding when interacting with dropdown
+searchHistoryDropdown.addEventListener("click", (e) => {
+  e.stopPropagation(); // Prevent click event from bubbling up
+});

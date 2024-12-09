@@ -14,11 +14,14 @@
           <img src="public/vite.svg" draggable="false">
           <h3>WeatherJam</h3>
         </div>
-        <input 
-          type="text" 
-          class="searchbar" 
-          placeholder="Search for a city ..."
-        >
+        <div class="searchbar-container">
+          <input 
+            type="text" 
+            class="searchbar" 
+            placeholder="Search for a city ..."
+          >
+          <ul id="search-history" class="hidden"></ul>
+        </div>
         <div class="datetime-ctnr">
           <p id="date">--</p>
           <p id="time">--</p>
