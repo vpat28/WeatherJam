@@ -91,9 +91,25 @@ const getWeather = async (city,days) => {
     renderHourlyChart(data);
     populateMoreStats(data);
     renderUvIndexChart(data);
+
+    // Set background color based on temperature
+    setBackgroundColor(data.current.temp_c);
 };
 
-
+function setBackgroundColor(temperature) {
+    const body = document.body;
+    if (temperature <= 0) {
+        body.style.backgroundColor = '#a3c9f1'; // Pastel blue for freezing temperatures
+    } else if (temperature > 0 && temperature <= 15) {
+        body.style.backgroundColor = '#b3e5fc'; // Pastel light blue for cold temperatures
+    } else if (temperature > 15 && temperature <= 25) {
+        body.style.backgroundColor = '#c8e6c9'; // Pastel green for mild temperatures
+    } else if (temperature > 25 && temperature <= 35) {
+        body.style.backgroundColor = '#fff9c4'; // Pastel yellow for warm temperatures
+    } else {
+        body.style.backgroundColor = '#ffcdd2'; // Pastel red for hot temperatures
+    }
+}
 
 // { LISTENER FOR 'ENTER' KEY IN SEARCHBAR }
 searchbar.addEventListener("keypress", (e) => {
@@ -147,7 +163,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // Default search
     getWeather("Deerfield Beach", 7);
 });
-
 
 function trimTime(bigTimeString,isNum){
     var trimmedTime = "";
@@ -499,4 +514,3 @@ const renderUvIndexChart = async (data) => {
       console.error("Error rendering UV Index chart:", error);
     }
   };
-
