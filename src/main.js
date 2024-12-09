@@ -16,7 +16,6 @@ const high = document.getElementById("high");
 const low = document.getElementById("low");
 
 const weeklyForecastContainer = document.getElementById("weekly-forecast");
-//const hourlyForecastContainer = document.getElementById("hourly-forecast");
 const hourlyForecastContainer = document.querySelector(".hourly-fc-reel");
 
 const country = document.getElementById("country")
@@ -30,16 +29,16 @@ const BASE_URL = "https://api.weatherapi.com/v1/forecast.json";
 
 
 const getWeather = async (city,days) => {
-    console.log(city,days);
+    // console.log(city,days);
     var data = "";
-    console.log("URL: " + `${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=yes`);
+    // console.log("URL: " + `${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=yes`);
 
     try 
     {
         const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=yes`);
         if (!response.ok) throw new Error("Failed to fetch weather data");
         data = await response.json();
-        console.log(data);
+        // console.log(data);
     } 
     catch (error) 
     {
@@ -200,10 +199,9 @@ const updateHourly = (data) => {
 
 // { FUNCTION TO POPULATE WEEKLY FORECAST WIDGET }
 const populateWeeklyForecast = (data) => {
-    // console.log(weeklyForecastContainer);
     if (!weeklyForecastContainer) {
-        console.error("weeklyForecastContainer is null. Check the HTML and ensure the ID is correct.");
-        return;
+      console.error("weeklyForecastContainer is null. Check the HTML and ensure the ID is correct.");
+      return;
     }
 
     weeklyForecastContainer.textContent = "";
@@ -279,10 +277,6 @@ const renderHourlyChart = async (data) => {
         const feelsLikeTemperatures = data.forecast.forecastday[0].hour.map(
             (hour) => hour.feelslike_f
         );
-
-        //console.log("Hourly Labels:", hourlyLabels);
-        //console.log("Hourly Temperatures:", hourlyTemperatures);
-        //console.log("Feels Like Temperatures:", feelsLikeTemperatures);
 
         new Chart(ctx, {
             type: "line",

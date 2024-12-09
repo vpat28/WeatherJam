@@ -486,11 +486,11 @@ p { font-size: 1.5rem; }
 }
 
 #hourlyTempChart {
-  width: 100%; /* Ensures the chart spans the width of the widget */
-  max-width: 500px; /* Optional: Constrain the maximum width */
-  height: 250px; /* Fixed height for the chart */
-  max-height: 300px; /* Optional: Set a maximum height */
-  margin: auto; /* Center the chart vertically */
+  width: 100%;
+  max-width: 500px;
+  height: 250px; 
+  max-height: 300px;
+  margin: auto;
 }
 
 
