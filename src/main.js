@@ -39,6 +39,7 @@ const getWeather = async (city,days) => {
         const response = await fetch(`${BASE_URL}?key=${API_KEY}&q=${city}&days=${days}&aqi=yes`);
         if (!response.ok) throw new Error("Failed to fetch weather data");
         data = await response.json();
+        saveToSearchHistory(city);
         console.log(data);
     } 
     catch (error) 
@@ -101,7 +102,7 @@ searchbar.addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
         const city = searchbar.value.trim();
         if (city) {
-            saveToSearchHistory(city);
+            
             getWeather(city,7);
             searchHistoryDropdown.classList.add("hidden");
         } else {
