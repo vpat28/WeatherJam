@@ -290,7 +290,10 @@ p { font-size: 1.5rem; }
   gap: 2rem;
 }
 .hourly-fc-reel::-webkit-scrollbar { height: .75rem; }
-.hourly-fc-reel::-webkit-scrollbar-track { background: #f1f1f1; }
+.hourly-fc-reel::-webkit-scrollbar-track { 
+  background: #f1f1f1; 
+  border-radius: .5rem;
+}
 .hourly-fc-reel::-webkit-scrollbar-thumb { 
   background: #ccc; 
   border-radius: .5rem; 
