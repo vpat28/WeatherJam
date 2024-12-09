@@ -77,8 +77,8 @@ p { font-size: 1.5rem; }
   right: 0;
   background: white;
   border: 1px solid lightgrey;
-  border-radius: 5px;
-  max-height: 200px;
+  border-radius: .5rem;
+  max-height: 20rem;
   overflow-y: auto;
   z-index: 10;
   list-style: none;
@@ -116,6 +116,16 @@ p { font-size: 1.5rem; }
     color: #c82333;
   }
 }
+#search-history::-webkit-scrollbar { width: .75rem; }
+#search-history::-webkit-scrollbar-track { 
+  background: #f1f1f1; 
+  border-radius: .5rem;
+}
+#search-history::-webkit-scrollbar-thumb { 
+  background: #ccc; 
+  border-radius: .5rem; 
+}
+#search-history::-webkit-scrollbar-thumb:hover { background: #aaa; }
 
 .hidden { display: none; }
 
