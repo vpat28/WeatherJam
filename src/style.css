@@ -484,3 +484,25 @@ p { font-size: 1.5rem; }
 }
 
 
+/* ----------------------------------------------------------------------- */
+
+/* TABLET SIZING */
+@media (max-width: 992px) {
+  #main { width: 90%; }
+
+  .nav-logo { display: none; }
+
+  .header {
+    flex-direction: column;
+    gap: .75rem;
+    text-align: left;
+    align-items: start;
+  }
+
+  .weather-ctnr {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .widget-ctnr { flex-direction: column; }
+}

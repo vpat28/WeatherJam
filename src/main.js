@@ -250,7 +250,7 @@ const populateMoreStats = (data) => {
     chanceRain.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
     totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in.";
     chanceSnow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
-    totalSnow.textContent = (data.forecast.forecastday[0].day.totalsnow_cm / 2.54) + " in.";
+    totalSnow.textContent = Math.round((data.forecast.forecastday[0].day.totalsnow_cm / 2.54) * 100) / 100 + " in";
     maxWind.textContent = data.forecast.forecastday[0].day.maxwind_mph + " mph";
     uvIndex.textContent = data.forecast.forecastday[0].day.uv;
 }
