@@ -214,8 +214,8 @@ const populateWeeklyForecast = (data) => {
         // Format the day
         const date = new Date(day.date + "T00:00:00");
         const options = { weekday: "short" };
-        const dayName = date.toLocaleDateString(undefined, options);
-
+        var dayName = date.toLocaleDateString(undefined, options);
+        if(index == 0){dayName = "Today"}
         // Build the forecast row content
         forecastRow.innerHTML = `
         <div class="fc-day">
