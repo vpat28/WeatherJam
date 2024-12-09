@@ -121,19 +121,19 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 
-// function trimTime(bigTimeString,isNum){
-//     var trimmedTime = "";
-//     for (var i = 5; i > 0; i--) {
-//         if (i ==3 && isNum) {
-//             trimmedTime = trimmedTime + ".";
-//         }
-//         else {
-//             trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
-//         }
-//     }
+function trimTime(bigTimeString,isNum){
+    var trimmedTime = "";
+    for (var i = 5; i > 0; i--) {
+        if (i ==3 && isNum) {
+            trimmedTime = trimmedTime + ".";
+        }
+        else {
+            trimmedTime = trimmedTime + bigTimeString[bigTimeString.length - i];
+        }
+    }
 
-//     return trimmedTime;
-// }
+    return trimmedTime;
+}
 
 
 // { FUNCTION TO POPULATE HOURLY FORECAST }
@@ -147,13 +147,13 @@ const updateHourly = (data) => {
   
     const currentTime = new Date(data.location.localtime);
     const currentHour = currentTime.getHours();
-  
+    timeElement.textContent = "Local Time: " + trimTime(data.location.localtime,false);
     for (let i = currentHour; i < data.forecast.forecastday[0].hour.length; i++) {
         const hourData = data.forecast.forecastday[0].hour[i];
         const hourTime = new Date(hourData.time).toLocaleTimeString([], { hour: "numeric", hour12: true });
         const hourTemp = hourData.temp_f;
         const hourIcon = hourData.condition.icon;
-
+       
         // Create hourly forecast card
         const hourCard = document.createElement("div");
         hourCard.className = "hour-fc";
@@ -184,20 +184,22 @@ const populateWeeklyForecast = (data) => {
         // Create a new forecast row
         const forecastRow = document.createElement("div");
         forecastRow.className = "forecast-row";
-
+        console.log("DAY: " + day.date)
         // Format the day
-        const date = new Date(day.date);
+        // const date = new Date(day.date);
+        const date = new Date(day.date + "T00:00:00");
+        console.log("DATE: " + date)
         const options = { weekday: "short" };
         const dayName = date.toLocaleDateString(undefined, options);
 
         // Build the forecast row content
         // <img src="${day.condition.icon}" alt="icon">
         forecastRow.innerHTML = `
-        <div>
+        <div class="fc-day">
             <img src="${day.day.condition.icon}" alt="icon">
             ${dayName}
         </div>
-        <div>
+        <div class="fc-highlow">
             <p id="fc-high">${day.day.maxtemp_f}°</p>
             <p id="fc-low">${day.day.mintemp_f}°</p>
         </div>
@@ -219,9 +221,9 @@ const populateMoreStats = (data) => {
     const uvIndex = document.getElementById("uv-index");
 
     chanceRain.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
-    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in";
+    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in.";
     chanceSnow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
-    totalSnow.textContent = Math.round((data.forecast.forecastday[0].day.totalsnow_cm / 2.54) * 100) / 100 + " in";
+    totalSnow.textContent = (data.forecast.forecastday[0].day.totalsnow_cm / 2.54) + " in.";
     maxWind.textContent = data.forecast.forecastday[0].day.maxwind_mph + " mph";
     uvIndex.textContent = data.forecast.forecastday[0].day.uv;
 }
