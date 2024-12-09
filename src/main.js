@@ -7,7 +7,7 @@ const cityElement = document.getElementById("city");
 const dateElement = document.getElementById("date");
 const timeElement = document.getElementById("time");
 const tempElement = document.getElementById("todays-weather");
-//const weatherDescElement = document.getElementById("weather-desc");
+const weatherDesc = document.getElementById("weather-desc");
 const humidityElement = document.getElementById("humidity");
 const windspeedElement = document.getElementById("windspeed");
 const weatherIcon = document.getElementById("weather-icon");
@@ -51,6 +51,7 @@ const getWeather = async (city,days) => {
     cityElement.textContent = `${data.location.name}, ${data.location.region}`;
     country.textContent = data.location.country;
     tempElement.innerHTML = `${data.current.temp_f}° F`;
+    weatherDesc.textContent = data.current.condition.text;
     humidityElement.textContent = `${data.current.humidity}%`;
     feelsLikeElement.textContent = data.current.feelslike_f;
     windspeedElement.textContent = data.current.wind_mph + " mph";
