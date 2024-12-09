@@ -422,3 +422,21 @@ p { font-size: 1.5rem; }
 .hidden {
   display: none;
 }
+
+#search-history button {
+  width: 100%;
+  padding: 10px;
+  background: #f8f9fa;
+  border: none;
+  border-bottom: 1px solid lightgrey;
+  cursor: pointer;
+  color: #dc3545;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#search-history button:hover {
+  background-color: #ffe5e5;
+  color: #c82333;
+}

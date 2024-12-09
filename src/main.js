@@ -338,6 +338,18 @@ const updateSearchHistoryUI = () => {
     const history = JSON.parse(localStorage.getItem(localStorageKey)) || [];
     searchHistoryDropdown.innerHTML = ""; // Clear existing dropdown
   
+    // Clear Search Button Functionality
+    if (history.length > 0) {
+        const clearButton = document.createElement("button");
+        clearButton.textContent = "Clear Search History";
+        clearButton.addEventListener("click", () => {
+        localStorage.removeItem(localStorageKey);
+        searchHistoryDropdown.innerHTML = "";
+        searchHistoryDropdown.classList.add("hidden");
+    });
+    searchHistoryDropdown.appendChild(clearButton);
+  }
+
     history.forEach((city) => {
       const listItem = document.createElement("li");
       listItem.textContent = city;
