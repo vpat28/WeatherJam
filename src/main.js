@@ -1,4 +1,5 @@
 import './style.css'
+
 // import javascriptLogo from './javascript.svg'
 // import viteLogo from '/vite.svg'
 // import { setupCounter } from './counter.js'
@@ -70,6 +71,7 @@ const getWeather = async (city,days) => {
     // Forecast stuff
     updateForecast(data);
     updateHourly(data);
+    renderHourlyChart(data);
 };
 
 
@@ -194,14 +196,11 @@ const updateHourly = (data) => {
       return;
     }
   
-    // Clear any existing content
     hourlyForecastContainer.textContent = "";
   
-    // Get the current hour
     const currentTime = new Date(data.location.localtime);
     const currentHour = currentTime.getHours();
   
-    // Populate hourly forecast from the current hour
     for (let i = currentHour; i < data.forecast.forecastday[0].hour.length; i++) {
       const hourData = data.forecast.forecastday[0].hour[i];
       const hourTime = new Date(hourData.time).toLocaleTimeString([], { hour: "numeric", hour12: true });
@@ -262,4 +261,76 @@ const updateForecast = (data) => {
   };
   
 
-//const getPrecipitation = ()
+  const renderHourlyChart = async (data) => {
+    try {
+      await loadChartJs(); // Load Chart.js dynamically
+      console.log("Chart.js loaded, rendering chart...");
+  
+      const ctx = document.getElementById("hourlyTempChart").getContext("2d");
+  
+      const hourlyLabels = data.forecast.forecastday[0].hour.map((hour) => {
+        const time = new Date(hour.time);
+        return time.toLocaleTimeString([], { hour: "numeric", hour12: true });
+      });
+  
+      const hourlyTemperatures = data.forecast.forecastday[0].hour.map(
+        (hour) => hour.temp_f
+      );
+  
+      console.log("Hourly Labels:", hourlyLabels);
+      console.log("Hourly Temperatures:", hourlyTemperatures);
+  
+      new Chart(ctx, {
+        type: "line",
+        data: {
+          labels: hourlyLabels,
+          datasets: [
+            {
+              label: "Temperature (°F)",
+              data: hourlyTemperatures,
+              borderColor: "#007BFF",
+              backgroundColor: "rgba(0, 123, 255, 0.2)",
+              borderWidth: 2,
+              pointRadius: 3,
+              pointBackgroundColor: "#007BFF",
+              fill: true, 
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true, // Prevents the chart from stretching vertically
+          scales: {
+            x: {
+              grid: { display: false },
+            },
+            y: {
+              grid: { color: "#e0e0e0" },
+              ticks: { beginAtZero: false },
+            },
+          },
+          plugins: {
+            legend: { display: false },
+          },
+        },
+      });
+      
+    } catch (error) {
+      console.error("Error rendering chart:", error);
+    }
+  };
+  
+  
+  const loadChartJs = () => {
+    return new Promise((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/chart.js";
+      script.onload = () => {
+        console.log("Chart.js loaded successfully");
+        resolve();
+      };
+      script.onerror = () => reject(new Error("Failed to load Chart.js"));
+      document.head.appendChild(script);
+    });
+  };
+  

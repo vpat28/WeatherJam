@@ -206,8 +206,10 @@ p { font-size: 1.5rem; }
   padding: 1.5rem 2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   text-align: center;
-  justify-content: center;
+  gap: 1rem;
 }
 
 /* Precipitation Widget */
@@ -341,4 +343,12 @@ p { font-size: 1.5rem; }
     font-size: 1rem;
     gap: .25rem;
   }
+}
+
+#hourlyTempChart {
+  width: 100%; /* Ensures the chart spans the width of the widget */
+  max-width: 500px; /* Optional: Constrain the maximum width */
+  height: 250px; /* Fixed height for the chart */
+  max-height: 300px; /* Optional: Set a maximum height */
+  margin: auto; /* Center the chart vertically */
 }
