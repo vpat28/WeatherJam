@@ -248,7 +248,7 @@ const populateMoreStats = (data) => {
     sunrise.textContent = data.forecast.forecastday[0].astro.sunrise;
     sunset.textContent = data.forecast.forecastday[0].astro.sunset;
     chanceRain.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
-    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in.";
+    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in";
     chanceSnow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
     totalSnow.textContent = Math.round((data.forecast.forecastday[0].day.totalsnow_cm / 2.54) * 100) / 100 + " in";
     maxWind.textContent = data.forecast.forecastday[0].day.maxwind_mph + " mph";
