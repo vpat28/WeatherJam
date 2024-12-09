@@ -53,8 +53,19 @@ const getWeather = async (city,days) => {
     feelsLikeElement.textContent = data.current.feelslike_f;
     windspeedElement.textContent = data.current.wind_mph + " mph";
     weatherIcon.src = data.forecast.forecastday[0].day.condition.icon
-    high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
-    low.textContent = data.forecast.forecastday[0].day.mintemp_f;
+    if(data.current.temp_f > data.forecast.forecastday[0].day.maxtemp_f){
+        high.textContent = data.current.temp_f
+    }else{
+        high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
+    }
+    // high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
+    if(data.current.temp_f < data.forecast.forecastday[0].day.mintemp_f){
+        low.textContent = data.current.temp_f
+    }else{
+        low.textContent = data.forecast.forecastday[0].day.mintemp_f;
+    }
+    // high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
+    // low.textContent = data.forecast.forecastday[0].day.mintemp_f;
     
     country.textContent = data.location.country;
     console.log("CHECKING DATE:     " + data.forecast.forecastday[1]);
