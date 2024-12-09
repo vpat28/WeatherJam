@@ -53,7 +53,13 @@
               <img id="weather-icon" src="src/assets/yellow-sun-icon-png.webp" draggable="false" alt="icon">
               <div class="temp">
                 <h1><span id="todays-weather">--</span></h1>
-                <p>H: <span id="high">--</span>° / L: <span id="low">--</span>°</p>
+                <div class="highlow-bar-ctnr">
+                  <p><span id="high">--</span>°</p>
+                  <div class="highlow-bar">
+                    <div class="highlow-marker"></div>
+                  </div>
+                  <p><span id="low">--</span>°</p>
+                </div>
               </div>
             </div>
           </div>
@@ -91,6 +97,20 @@
           <div class="widget">
             <h3>More from Today</h3>
             <div class="forecast-ctnr" id="more-stats">
+              <div class="forecast-row">
+                <div>
+                  <img src="src/assets/icon-pack-1/023-sunrise.svg" alt="icon" draggable="false">
+                  <p>Sunrise</p>
+                </div>
+                <p id="sunrise">--</p>
+              </div>
+              <div class="forecast-row">
+                <div>
+                  <img src="src/assets/icon-pack-1/024-sunset.svg" alt="icon" draggable="false">
+                  <p>Sunset</p>
+                </div>
+                <p id="sunset">--</p>
+              </div>
               <div class="forecast-row">
                 <div>
                   <img src="src/assets/icon-pack-1/010-humidity.svg" alt="icon" draggable="false">

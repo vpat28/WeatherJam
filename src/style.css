@@ -213,12 +213,41 @@ p { font-size: 1.5rem; }
   .temp {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
     p {
       font-size: 1.5rem;
       opacity: .5;
     }
   }
+}
+
+.highlow-bar-ctnr {
+  height: .5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.highlow-bar {
+  height: .5rem;
+  width: 10rem;
+  border-radius: .5rem;
+  background: linear-gradient(to right, orange, lightblue);
+  /* display: flex;
+  align-items: center; */
+  position: relative;
+}
+
+.highlow-marker {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100%;
+  background: white;
+  border: .5px solid grey;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
 }
 
 .today-stats {

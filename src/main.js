@@ -47,30 +47,41 @@ const getWeather = async (city,days) => {
         alert("Could not fetch weather data. Please try again.");
     }
 
+    // Populate main weather container elements
     cityElement.textContent = `${data.location.name}, ${data.location.region}`;
+    country.textContent = data.location.country;
     tempElement.innerHTML = `${data.current.temp_f}° F`;
     humidityElement.textContent = `${data.current.humidity}%`;
     feelsLikeElement.textContent = data.current.feelslike_f;
     windspeedElement.textContent = data.current.wind_mph + " mph";
-    weatherIcon.src = data.forecast.forecastday[0].day.condition.icon
-    if(data.current.temp_f > data.forecast.forecastday[0].day.maxtemp_f){
-        high.textContent = data.current.temp_f
-    }else{
-        high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
-    }
-    // high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
-    if(data.current.temp_f < data.forecast.forecastday[0].day.mintemp_f){
-        low.textContent = data.current.temp_f
-    }else{
-        low.textContent = data.forecast.forecastday[0].day.mintemp_f;
-    }
-    // high.textContent = data.forecast.forecastday[0].day.maxtemp_f;
-    // low.textContent = data.forecast.forecastday[0].day.mintemp_f;
-    
-    country.textContent = data.location.country;
-    console.log("CHECKING DATE:     " + data.forecast.forecastday[1]);
+    weatherIcon.src = data.forecast.forecastday[0].day.condition.icon;
 
-    // Set date and time
+    let highValue = Math.max(data.forecast.forecastday[0].day.maxtemp_f, data.current.temp_f);
+    let lowValue = Math.min(data.forecast.forecastday[0].day.mintemp_f, data.current.temp_f);
+
+    // Populate high-low elements
+    high.textContent = highValue;
+    low.textContent = lowValue;
+
+    // Calculatge marker position as a percentage
+    const range = highValue - lowValue;
+    const currTemp = data.current.temp_f;
+
+    // Avoid division by zero in case high == low
+    let markerPosition = 0;
+    if (range !== 0) {
+        markerPosition = ((highValue - currTemp) / range) * 100;
+    }
+
+    const clampedPosition = Math.max(0, Math.min(markerPosition, 100));     // Clamp the position to stay within bounds (0% to 100%)
+
+    // Set the marker's position
+    const highlowMarker = document.querySelector('.highlow-marker');
+    highlowMarker.style.position = 'absolute';
+    highlowMarker.style.left = `${clampedPosition}%`;
+
+    
+    // Populate date and time elements
     dateElement.textContent = getFormattedDate();
     timeElement.textContent = getCurrentTime();
 
@@ -194,22 +205,18 @@ const populateWeeklyForecast = (data) => {
     }
 
     weeklyForecastContainer.textContent = "";
-    //console.log(data.forecast.forecastday[1]);
 
     data.forecast.forecastday.forEach((day, index) => {
         // Create a new forecast row
         const forecastRow = document.createElement("div");
         forecastRow.className = "forecast-row";
-        console.log("DAY: " + day.date)
+
         // Format the day
-        // const date = new Date(day.date);
         const date = new Date(day.date + "T00:00:00");
-        console.log("DATE: " + date)
         const options = { weekday: "short" };
         const dayName = date.toLocaleDateString(undefined, options);
 
         // Build the forecast row content
-        // <img src="${day.condition.icon}" alt="icon">
         forecastRow.innerHTML = `
         <div class="fc-day">
             <img src="${day.day.condition.icon}" alt="icon">
@@ -229,6 +236,8 @@ const populateWeeklyForecast = (data) => {
 
 // { FUNCTION TO POPULATE OTHER STATS WIDGET }
 const populateMoreStats = (data) => {
+    const sunrise = document.getElementById("sunrise");
+    const sunset = document.getElementById("sunset");
     const chanceRain = document.getElementById("chance-rain");
     const totalRain = document.getElementById("total-rain");
     const chanceSnow = document.getElementById("chance-snow");
@@ -236,6 +245,8 @@ const populateMoreStats = (data) => {
     const maxWind = document.getElementById("max-wind");
     const uvIndex = document.getElementById("uv-index");
 
+    sunrise.textContent = data.forecast.forecastday[0].astro.sunrise;
+    sunset.textContent = data.forecast.forecastday[0].astro.sunset;
     chanceRain.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
     totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in.";
     chanceSnow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
