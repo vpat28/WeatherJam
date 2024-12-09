@@ -57,12 +57,67 @@ p { font-size: 1.5rem; }
   h3 { font-size: 1.75rem; }
 }
 
+/* Search History */
 .searchbar {
   padding: .75rem 1rem;
   width: 100%;
   border: 1px solid var(--border-main);
   border-radius: .35rem;
 }
+
+.searchbar-container {
+  position: relative;
+  width: 100%;
+}
+
+#search-history {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  box-shadow: 0 0 .5rem lightgrey;
+
+  li {
+    font-size: 1.35rem;
+    padding: 10px;
+    cursor: pointer;
+    color: #007BFF;
+    border-bottom: 1px solid lightgrey;
+  }
+  li:last-child { border: none; }
+  li:hover {
+    background: #f0f8ff;
+    color: #0056b3;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background: #f8f9fa;
+    border: none;
+    border-bottom: 1px solid lightgrey;
+    cursor: pointer;
+    color: #dc3545;
+    text-align: left;
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  button:hover {
+    background-color: #ffe5e5;
+    color: #c82333;
+  }
+}
+
+.hidden { display: none; }
 
 .datetime-ctnr {
   display: flex;
@@ -389,61 +444,3 @@ p { font-size: 1.5rem; }
 }
 
 
-/* Search History */
-.searchbar-container {
-  position: relative;
-  width: 100%;
-}
-
-#search-history {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid lightgrey;
-  border-radius: 5px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 10;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-#search-history li {
-  padding: 10px;
-  cursor: pointer;
-  color: #007BFF;
-  border-bottom: 1px solid lightgrey;
-}
-
-#search-history li:last-child {
-  border-bottom: none;
-}
-
-#search-history li:hover {
-  background-color: #f0f8ff;
-  color: #0056b3;
-}
-
-.hidden {
-  display: none;
-}
-
-#search-history button {
-  width: 100%;
-  padding: 10px;
-  background: #f8f9fa;
-  border: none;
-  border-bottom: 1px solid lightgrey;
-  cursor: pointer;
-  color: #dc3545;
-  text-align: left;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-#search-history button:hover {
-  background-color: #ffe5e5;
-  color: #c82333;
-}
