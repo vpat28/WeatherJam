@@ -272,28 +272,29 @@ p { font-size: 1.5rem; }
   gap: 1rem;
   border-bottom: 1px solid var(--border-light);
   padding: .5rem 0;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 
   div {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 1rem;
   }
   img { width: 2rem; }
+
+  div:last-child {
+    flex-flow: wrap;
+    justify-content: right;
+    gap: .5rem;
+  
+    p {
+      font-size: 1.5rem;
+      gap: .25rem;
+    }
+    p:last-child { opacity: .5; }
+  }
 }
 .forecast-row:last-child { border: none; }
 
-.fc-highlow {
-  flex-flow: wrap;
-  justify-content: right;
-  gap: .5rem;
-
-  p {
-    font-size: 1.25rem;
-    gap: .25rem;
-  }
-  p:last-child { opacity: .5; }
-}
 /* Hourly Forecast */
 .hour-ctnr {
   width: 100%;

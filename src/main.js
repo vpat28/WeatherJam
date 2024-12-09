@@ -193,11 +193,11 @@ const populateWeeklyForecast = (data) => {
         // Build the forecast row content
         // <img src="${day.condition.icon}" alt="icon">
         forecastRow.innerHTML = `
-        <div class="fc-day">
+        <div>
             <img src="${day.day.condition.icon}" alt="icon">
             ${dayName}
         </div>
-        <div class="fc-highlow">
+        <div>
             <p id="fc-high">${day.day.maxtemp_f}°</p>
             <p id="fc-low">${day.day.mintemp_f}°</p>
         </div>
@@ -219,9 +219,9 @@ const populateMoreStats = (data) => {
     const uvIndex = document.getElementById("uv-index");
 
     chanceRain.textContent = data.forecast.forecastday[0].day.daily_chance_of_rain + "%";
-    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in.";
+    totalRain.textContent = data.forecast.forecastday[0].day.totalprecip_in + " in";
     chanceSnow.textContent = data.forecast.forecastday[0].day.daily_chance_of_snow + "%";
-    totalSnow.textContent = (data.forecast.forecastday[0].day.totalsnow_cm / 2.54) + " in.";
+    totalSnow.textContent = Math.round((data.forecast.forecastday[0].day.totalsnow_cm / 2.54) * 100) / 100 + " in";
     maxWind.textContent = data.forecast.forecastday[0].day.maxwind_mph + " mph";
     uvIndex.textContent = data.forecast.forecastday[0].day.uv;
 }
