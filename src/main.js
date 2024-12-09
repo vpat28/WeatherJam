@@ -91,6 +91,7 @@ const getWeather = async (city,days) => {
     updateHourly(data);
     renderHourlyChart(data);
     populateMoreStats(data);
+    renderUvIndexChart(data);
 };
 
 
@@ -263,57 +264,95 @@ const renderHourlyChart = async (data) => {
 
         const ctx = document.getElementById("hourlyTempChart").getContext("2d");
 
+        // Extract hourly labels
         const hourlyLabels = data.forecast.forecastday[0].hour.map((hour) => {
             const time = new Date(hour.time);
             return time.toLocaleTimeString([], { hour: "numeric", hour12: true });
         });
 
+        // Extract temperatures
         const hourlyTemperatures = data.forecast.forecastday[0].hour.map(
             (hour) => hour.temp_f
         );
 
-        console.log("Hourly Labels:", hourlyLabels);
-        console.log("Hourly Temperatures:", hourlyTemperatures);
-  
+        // Extract "feels like" temperatures
+        const feelsLikeTemperatures = data.forecast.forecastday[0].hour.map(
+            (hour) => hour.feelslike_f
+        );
+
+        //console.log("Hourly Labels:", hourlyLabels);
+        //console.log("Hourly Temperatures:", hourlyTemperatures);
+        //console.log("Feels Like Temperatures:", feelsLikeTemperatures);
+
         new Chart(ctx, {
             type: "line",
             data: {
                 labels: hourlyLabels,
                 datasets: [
-                {
-                    label: "Temperature (°F)",
-                    data: hourlyTemperatures,
-                    borderColor: "#007BFF",
-                    backgroundColor: "rgba(0, 123, 255, 0.2)",
-                    borderWidth: 2,
-                    pointRadius: 3,
-                    pointBackgroundColor: "#007BFF",
-                    fill: true, 
-                },
+                    {
+                        label: "Temperature (°F)",
+                        data: hourlyTemperatures,
+                        borderColor: "#007BFF",
+                        backgroundColor: "rgba(0, 123, 255, 0.2)",
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: "#007BFF",
+                        fill: true,
+                    },
+                    {
+                        label: "Feels Like (°F)",
+                        data: feelsLikeTemperatures,
+                        borderColor: "#FF5733",
+                        backgroundColor: "rgba(255, 87, 51, 0.2)",
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: "#FF5733",
+                        fill: false, 
+                    },
                 ],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: true, // Prevents the chart from stretching vertically
                 scales: {
-                x: {
-                    grid: { display: false },
-                },
-                y: {
-                    grid: { color: "#e0e0e0" },
-                    ticks: { beginAtZero: false },
-                },
+                    x: {
+                        grid: { display: false },
+                        title: {
+                            display: true,
+                            text: "Time of Day",
+                            font: { size: 14 },
+                        },
+                    },
+                    y: {
+                        grid: { color: "#e0e0e0" },
+                        ticks: { beginAtZero: false },
+                        title: {
+                            display: true,
+                            text: "Temperature (°F)",
+                            font: { size: 14 },
+                        },
+                    },
                 },
                 plugins: {
-                legend: { display: false },
+                    legend: {
+                        display: true,
+                        position: "top",
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return `${context.dataset.label}: ${context.raw}°F`;
+                            },
+                        },
+                    },
                 },
             },
         });
-    } 
-    catch (error) {
+    } catch (error) {
         console.error("Error rendering chart:", error);
     }
 };
+
   
   
 const loadChartJs = () => {
@@ -394,3 +433,76 @@ document.addEventListener("click", (e) => {
 searchHistoryDropdown.addEventListener("click", (e) => {
   e.stopPropagation(); // Prevent click event from bubbling up
 });
+
+// UV Index Chart
+const renderUvIndexChart = async (data) => {
+    try {
+      await loadChartJs(); // Ensure Chart.js is loaded
+      console.log("Chart.js loaded, rendering UV Index chart...");
+  
+      const ctx = document.getElementById("uvIndexChart").getContext("2d");
+  
+      // Extract hourly labels and UV index values
+      const hourlyLabels = data.forecast.forecastday[0].hour.map((hour) => {
+        const time = new Date(hour.time);
+        return time.toLocaleTimeString([], { hour: "numeric", hour12: true });
+      });
+  
+      const hourlyUvIndex = data.forecast.forecastday[0].hour.map((hour) => hour.uv);
+  
+      // Create the UV Index chart
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: hourlyLabels,
+          datasets: [
+            {
+              label: "UV Index",
+              data: hourlyUvIndex,
+              backgroundColor: "rgba(255, 99, 132, 0.2)",
+              borderColor: "rgba(255, 99, 132, 1)",
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            x: {
+              grid: { display: false },
+              title: {
+                display: true,
+                text: "Time",
+                font: { size: 14 },
+              },
+            },
+            y: {
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: "UV Index",
+                font: { size: 14 },
+              },
+              ticks: {
+                stepSize: 1, // Show integer UV values
+              },
+            },
+          },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `UV Index: ${context.raw}`;
+                },
+              },
+            },
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Error rendering UV Index chart:", error);
+    }
+  };
+
