@@ -25,6 +25,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 
 h1 { font-size: 3rem; }
@@ -279,6 +280,7 @@ p { font-size: 1.5rem; }
   display: flex;
   flex-direction: column;
   /* gap: 1rem; */
+  
 
   h3 {
     color: var(--accent);
@@ -490,7 +492,7 @@ p { font-size: 1.5rem; }
   max-width: 500px; /* Optional: Constrain the maximum width */
   height: 250px; /* Fixed height for the chart */
   max-height: 300px; /* Optional: Set a maximum height */
-  margin: auto; /* Center the chart vertically */
+  margin: auto;
 }
 
 
