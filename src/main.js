@@ -21,7 +21,8 @@ const precipitation = document.getElementById("precipitation");
 const snow = document.getElementById("snow");
 
 const weeklyForecastContainer = document.getElementById("weekly-forecast");
-const hourlyForecastContainer = document.getElementById("hourly-forecast");
+//const hourlyForecastContainer = document.getElementById("hourly-forecast");
+const hourlyForecastContainer = document.querySelector(".hourly-fc-reel");
 
 const country = document.getElementById("country")
 const localTime = document.getElementById("time");
@@ -134,59 +135,93 @@ function trimTime(bigTimeString,isNum){
   return trimmedTime
 }
 
-const updateHourly = (data) =>{
-    console.log(hourlyForecastContainer);
-    if (!hourlyForecastContainer) {
-        console.error("hourlyForecastContainer is null. Check the HTML and ensure the ID is correct.");
-        return;
-      }
-      hourlyForecastContainer.textContent = ""
-      const bigTimeString = data.location.localtime;
-      console.log(bigTimeString)
-      console.log(bigTimeString[11])
-      var currTime = ""
-      var numTime = " "
+// const updateHourly = (data) =>{
+//     console.log(hourlyForecastContainer);
+//     if (!hourlyForecastContainer) {
+//         console.error("hourlyForecastContainer is null. Check the HTML and ensure the ID is correct.");
+//         return;
+//       }
+//       hourlyForecastContainer.textContent = ""
+//       const bigTimeString = data.location.localtime;
+//       console.log(bigTimeString)
+//       console.log(bigTimeString[11])
+//       var currTime = ""
+//       var numTime = " "
    
-    currTime = trimTime(bigTimeString,false);
-    console.log(currTime);
-    numTime = trimTime(bigTimeString,true);
-    // console.log(trimTime)
-    localTime.textContent = "Local Time " + currTime;
-    const startHourlyFrom = Math.ceil(Number(numTime) + Number.EPSILON);
-      console.log(startHourlyFrom);
-      for(var i = startHourlyFrom; i<=23;i++){
-        const hourRow =document.createElement("div");
-        hourRow.className = "hour-row";
-        const time = data.forecast.forecastday[0].hour[i].time;
-        const temp =data.forecast.forecastday[0].hour[i].temp_f;
-        console.log()
-        hourRow.innerHTML = `
-        <div class="fc-hour">
-            ${trimTime(time,false)}
-        </div>
-        <div class="fc-hourtemp">
-            <p id="fc-temp">${temp}°F</p>
+//     currTime = trimTime(bigTimeString,false);
+//     console.log(currTime);
+//     numTime = trimTime(bigTimeString,true);
+//     // console.log(trimTime)
+//     localTime.textContent = "Local Time " + currTime;
+//     const startHourlyFrom = Math.ceil(Number(numTime) + Number.EPSILON);
+//       console.log(startHourlyFrom);
+//       for(var i = startHourlyFrom; i<=23;i++){
+//         const hourRow =document.createElement("div");
+//         hourRow.className = "hour-row";
+//         const time = data.forecast.forecastday[0].hour[i].time;
+//         const temp =data.forecast.forecastday[0].hour[i].temp_f;
+//         console.log()
+//         hourRow.innerHTML = `
+//         <div class="fc-hour">
+//             ${trimTime(time,false)}
+//         </div>
+//         <div class="fc-hourtemp">
+//             <p id="fc-temp">${temp}°F</p>
             
-        </div>
-      `;
+//         </div>
+//       `;
   
       
-      hourlyForecastContainer.appendChild(hourRow);
-      }
-    const midnightMessageRow = document.createElement("div");
-    midnightMessageRow.className = "hour-row special-message";
-    midnightMessageRow.innerHTML = `
-        <div class="fc-hour">
-            24:00
-        </div>
-        <div class="fc-hourtemp">
-            <p id="fc-temp">The hourly forecast will be updated at midnight!</p>
-        </div>
-    `;
+//       hourlyForecastContainer.appendChild(hourRow);
+//       }
+//     const midnightMessageRow = document.createElement("div");
+//     midnightMessageRow.className = "hour-row special-message";
+//     midnightMessageRow.innerHTML = `
+//         <div class="fc-hour">
+//             24:00
+//         </div>
+//         <div class="fc-hourtemp">
+//             <p id="fc-temp">The hourly forecast will be updated at midnight!</p>
+//         </div>
+//     `;
 
-    hourlyForecastContainer.appendChild(midnightMessageRow);
-}
+//     hourlyForecastContainer.appendChild(midnightMessageRow);
+// }
 
+const updateHourly = (data) => {
+    if (!hourlyForecastContainer) {
+      console.error("hourlyForecastContainer is null. Check the HTML and ensure the class is correct.");
+      return;
+    }
+  
+    // Clear any existing content
+    hourlyForecastContainer.textContent = "";
+  
+    // Get the current hour
+    const currentTime = new Date(data.location.localtime);
+    const currentHour = currentTime.getHours();
+  
+    // Populate hourly forecast from the current hour
+    for (let i = currentHour; i < data.forecast.forecastday[0].hour.length; i++) {
+      const hourData = data.forecast.forecastday[0].hour[i];
+      const hourTime = new Date(hourData.time).toLocaleTimeString([], { hour: "numeric", hour12: true });
+      const hourTemp = hourData.temp_f;
+      const hourIcon = hourData.condition.icon;
+  
+      // Create hourly forecast card
+      const hourCard = document.createElement("div");
+      hourCard.className = "hour-fc";
+      hourCard.innerHTML = `
+        <p>${hourTime}</p>
+        <img src="${hourIcon}" alt="Weather Icon" draggable="false">
+        <p>${hourTemp}°F</p>
+      `;
+  
+      // Append to the hourly forecast reel
+      hourlyForecastContainer.appendChild(hourCard);
+    }
+  };
+  
 const updateForecast = (data) => {
 
     console.log(weeklyForecastContainer);
